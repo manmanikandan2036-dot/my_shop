@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Products - MyShop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* -------------------- BASIC -------------------- */
+
+*{
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f5f6fa;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:0 15px;
+}
+
+/* -------------------- NAVBAR -------------------- */
+
+.navbar{
+    background:#2d3436;
+    color:white;
+}
+
+.navbar .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+}
+
+.logo{
+    color:white;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.nav-menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.cart-badge{
+    background:red;
+    padding:2px 7px;
+    border-radius:50%;
+    font-size:12px;
+}
+
+/* -------------------- HERO -------------------- */
+
+.hero{
+    padding:60px 0;
+    text-align:center;
+    background-image: url("online-shopping-concept.jpg");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.subtitle{
+    opacity:0.9;
+}
+
+/* -------------------- SEARCH -------------------- */
+
+.search-filter{
+    display:flex;
+    gap:15px;
+    max-width:600px;
+    margin:30px auto 0;
+}
+
+.search-box,.filter-select{
+    padding:12px 18px;
+    border-radius:30px;
+    border:none;
+    outline:none;
+    font-size:15px;
+    width:100%;
+}
+
+/* -------------------- PRODUCTS -------------------- */
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:25px;
+    margin-top:40px;
+}
+
+.product-card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+}
+
+.product-image{
+    height:180px;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:15px;
+}
+
+.product-category{
+    background:#eafaf1;
+    color:#2e7d32;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.product-title{
+    margin:10px 0 5px;
+}
+
+.product-description{
+    font-size:14px;
+    color:#666;
+    min-height:38px;
+}
+
+.product-price{
+    font-size:20px;
+    font-weight:bold;
+    color:#e74c3c;
+    margin:10px 0;
+}
+
+.product-actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn-add-cart{
+    flex:1;
+    border:none;
+    background:#3498db;
+    color:white;
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.btn-buy-now{
+    flex:1;
+    border:none;
+    background:#ff6b6b;
+    color:white;
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* -------------------- AI RECOMMENDATION -------------------- */
+
+.ai-box{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-top:40px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.ai-title{
+    font-size:20px;
+    margin-bottom:15px;
+}
+
+/* -------------------- FOOTER -------------------- */
+
+.footer{
+    background:#2d3436;
+    color:white;
+    margin-top:60px;
+    padding:40px 0 20px;
+}
+
+.footer-content{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.footer a{
+    color:white;
+    text-decoration:none;
+    display:block;
+    margin:5px 0;
+}
+
+.footer-bottom{
+    text-align:center;
+    margin-top:20px;
+    font-size:14px;
+}
+
+.no-products{
+    text-align:center;
+    grid-column:1/-1;
+    color:#777;
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<div class="container">
+<a class="logo" href="index.html">
+<i class="fa-solid fa-cart-shopping"></i> MyShop
+</a>
+
+<div class="nav-menu">
+<a href="index.html"><i class="fa fa-home"></i> Home</a>
+<a href="products.html"><i class="fa fa-store"></i> Products</a>
+<a href="cart.html">
+<i class="fa fa-bag-shopping"></i> Cart
+<span class="cart-badge" id="cart-count">0</span>
+</a>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<h1>Our Products</h1>
+<p class="subtitle">Discover our wide range of products</p>
+
+<div class="search-filter">
+<input id="search-input" class="search-box" placeholder="Search products...">
+<select id="category-filter" class="filter-select">
+<option value="">All Categories</option>
+<option value="Electronics">Electronics</option>
+<option value="Fashion">Fashion</option>
+<option value="Home">Home</option>
+<option value="Sports">Sports</option>
+</select>
+</div>
+
+</div>
+</section>
+
+<!-- CONTENT -->
+<section class="container">
+
+<!-- AI recommendation -->
+<div class="ai-box">
+<div class="ai-title">
+🤖 Recommended for you (Rule-based AI)
+</div>
+<div class="products-grid" id="ai-products"></div>
+</div>
+
+<div class="products-grid" id="products-container"></div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div>
+<h3>MyShop</h3>
+<p>Your trusted online shop</p>
+</div>
+<div>
+<h3>Links</h3>
+<a href="index.html">Home</a>
+<a href="products.html">Products</a>
+<a href="cart.html">Cart</a>
+</div>
+<div>
+<h3>Contact</h3>
+<p>support@myshop.com</p>
+</div>
+</div>
+<div class="footer-bottom">
+© 2024 MyShop
+</div>
+</div>
+</footer>
+
+<script>
+
+const allProducts = [
+{id:1,name:"Wireless Headphones",price:49.99,category:"Electronics",image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",description:"Noise cancelling headphones"},
+{id:2,name:"Smart Watch",price:89.99,category:"Electronics",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",description:"Fitness & GPS smart watch"},
+{id:3,name:"Laptop Backpack",price:29.99,category:"Fashion",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",description:"Waterproof backpack"},
+{id:4,name:"Bluetooth Speaker",price:39.99,category:"Electronics",image:"https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",description:"Portable speaker"},
+{id:5,name:"Running Shoes",price:59.99,category:"Sports",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",description:"Comfort running shoes"},
+{id:6,name:"Coffee Maker",price:79.99,category:"Home",image:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400",description:"Automatic coffee maker"},
+{id:7,name:"Gaming Mouse",price:34.99,category:"Electronics",image:"https://images.unsplash.com/photo-1527814050087-3793815479db?w=400",description:"RGB gaming mouse"},
+{id:8,name:"Desk Lamp",price:24.99,category:"Home",image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400",description:"LED desk lamp"}
+];
+
+let lastInterestCategory = "Electronics";
+
+const container = document.getElementById("products-container");
+const aiContainer = document.getElementById("ai-products");
+
+function createCard(p){
+    return `
+    <div class="product-card">
+        <div class="product-image">
+            <img src="${p.image}" alt="${p.name}">
+        </div>
+        <div class="product-info">
+            <span class="product-category">${p.category}</span>
+            <h3 class="product-title">${p.name}</h3>
+            <p class="product-description">${p.description}</p>
+            <div class="product-price">$${p.price}</div>
+            <div class="product-actions">
+                <button class="btn-add-cart" onclick="addToCart()">Add</button>
+                <button class="btn-buy-now" onclick="buyNow('${p.name}')">Buy</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+function displayProducts(list){
+    container.innerHTML="";
+    if(list.length===0){
+        container.innerHTML='<div class="no-products">No products found</div>';
+        return;
+    }
+    list.forEach(p=>{
+        container.innerHTML+=createCard(p);
+    });
+}
+
+/* ---------------- RULE BASED AI ---------------- */
+
+function ruleBasedAI(){
+
+    let recommended = allProducts.filter(
+        p => p.category === lastInterestCategory
+    );
+
+    if(recommended.length === 0){
+        recommended = [...allProducts]
+            .sort((a,b)=>a.price-b.price)
+            .slice(0,3);
+    }
+
+    recommended = recommended.slice(0,4);
+
+    aiContainer.innerHTML="";
+    recommended.forEach(p=>{
+        aiContainer.innerHTML+=createCard(p);
+    });
+}
+
+/* ---------------- FILTER ---------------- */
+
+const searchInput = document.getElementById("search-input");
+const categoryFilter = document.getElementById("category-filter");
+
+function filterProducts(){
+
+    let search = searchInput.value.toLowerCase();
+    let cat = categoryFilter.value;
+
+    let result = allProducts.filter(p=>{
+        return (
+            (p.name.toLowerCase().includes(search) ||
+             p.description.toLowerCase().includes(search)) &&
+            (cat==="" || p.category===cat)
+        );
+    });
+
+    if(cat!==""){
+        lastInterestCategory = cat;
+    }
+
+    displayProducts(result);
+    ruleBasedAI();
+}
+
+searchInput.addEventListener("input", filterProducts);
+categoryFilter.addEventListener("change", filterProducts);
+
+/* ---------------- CART ---------------- */
+
+let cartCount = 0;
+
+function addToCart(){
+    cartCount++;
+    document.getElementById("cart-count").innerText = cartCount;
+}
+
+function buyNow(name){
+    alert("Order placed for " + name);
+}
+
+/* ---------------- INIT ---------------- */
+
+displayProducts(allProducts);
+ruleBasedAI();
+
+</script>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register - MyShop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:url("laptop-shopping-bags-online-shopping-concept.jpg") no-repeat center;
+    background-size:cover;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: #fff;
+}
+
+/* Glass registration box */
+.register-box{
+    width:360px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    border-radius:16px;
+    padding:30px 25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    color:#fff;
+}
+
+.register-box h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.form-group input{
+    width:100%;
+    padding:10px 12px;
+    border:none;
+    border-radius:6px;
+    outline:none;
+}
+
+.password-strength{
+    margin-top:5px;
+    font-size:12px;
+}
+
+.strength-bar{
+    height:5px;
+    background:#eee;
+    border-radius:5px;
+    margin-top:3px;
+    overflow:hidden;
+}
+
+.strength-fill{
+    height:100%;
+    width:0%;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.register-btn{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#ffffff;
+    color:#333;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.register-btn:hover{
+    background:#eee;
+}
+
+.bottom-text{
+    text-align:center;
+    margin-top:15px;
+    font-size:14px;
+}
+
+.bottom-text a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.bottom-text a:hover{
+    text-decoration:underline;
+}
+
+.icon{
+    margin-right:6px;
+}
+</style>
+</head>
+<body>
+
+<div class="register-box">
+
+    <h2><i class="fa-solid fa-user-plus icon"></i>Register</h2>
+
+    <form id="registerForm">
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-user icon"></i> Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-envelope icon"></i> Email</label>
+            <input type="email" id="regEmail" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-lock icon"></i> Password</label>
+            <input type="password" id="regPassword" placeholder="Create a password" required>
+            <div class="password-strength">
+                <span id="strength-text">Password strength: </span>
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strength-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-lock icon"></i> Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+
+        <button class="register-btn" type="submit"><i class="fa-solid fa-user-plus icon"></i> REGISTER</button>
+
+        <div class="bottom-text">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+// Password strength checker
+const passwordInput = document.getElementById('regPassword');
+const strengthBar = document.getElementById('strength-bar');
+const strengthText = document.getElementById('strength-text');
+
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+
+    if(password.length >= 8) strength += 25;
+    if(/[a-z]/.test(password)) strength += 25;
+    if(/[A-Z]/.test(password)) strength += 25;
+    if(/[0-9]/.test(password) || /[^A-Za-z0-9]/.test(password)) strength += 25;
+
+    strengthBar.style.width = strength + '%';
+
+    if(strength < 50){
+        strengthBar.style.background = '#ff4757';
+        strengthText.textContent = 'Password strength: Weak';
+    } else if(strength < 75){
+        strengthBar.style.background = '#ffa502';
+        strengthText.textContent = 'Password strength: Fair';
+    } else {
+        strengthBar.style.background = '#2ed573';
+        strengthText.textContent = 'Password strength: Strong';
+    }
+});
+
+// Handle registration
+document.getElementById('registerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if(!fullName || !email || !password || !confirmPassword){
+        alert('Please fill all fields');
+        return;
+    }
+
+    if(password !== confirmPassword){
+        alert('Passwords do not match');
+        return;
+    }
+
+    if(password.length < 8){
+        alert('Password must be at least 8 characters');
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    if(users.some(user => user.email === email)){
+        alert('This email is already registered');
+        return;
+    }
+
+    const newUser = {id:Date.now(), name:fullName, email, password};
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Registration successful! Please login.');
+    window.location.href = 'login.html';
+});
+</script>
+<script src="script.js"></script>
+
+</body>
+</html>
